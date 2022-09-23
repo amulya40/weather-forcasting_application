@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Whether APP</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+<!-- ///////My defined style//////// -->
+<link rel="stylesheet" href="./style.css">
+
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css" />
+  </head>
+  <body>
+    <div class="container my-5">
+      <div class="row d-flex justify-content-center text-white text-shadow ">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+       
+        <div id="wrapper-bg" class="card shadow-1-strong bg-image" style="background-image: url('./Assets/thunderstorm.gif');">
+          <!-- MAIN CURRENT DATA -->
+          <div class="card-header text-centre border-0">
+            <p class="h2 mb-1 " id="wrapper-name"></p>
+            <p class="mb-1" id="wrapper-description" ></p>
+            <p class="display-1 mb-1" id="wrapper-temp" ></p>
+            <span>Pressure: <span id="wrapper-pressure" ></span></span>
+            <span class="mx-2">|</span>
+            <span>Humidity: <span id="wrapper-humidity"></span></span>
+
+
+          </div>
+
+          	<!-- HOURLY DATA FORECAST -->
+          <div class="card-body border-top border-bottom text-centre">
+          <div class="row">
+          
+            <div class="col-2" >
+              <strong class="mr-2">Now</strong>
+              <img id="wrapper-icon-hour-now" src="" alt="icon">
+              <strong class="d-block" id="wrapper-hour-now" ></strong>
+            </div>
+          
+            <div class="col-2">
+              <strong id="wrapper-time1" class="mr-2"></strong>
+              <img id="wrapper-icon-hour1" src="" alt="icon">
+              <strong class="d-block" id="wrapper-hour1" ></strong>
+              
+            </div>
+
+            <div class="col-2">
+              <strong id="wrapper-time2" class="mr-2"></strong>
+              <img id="wrapper-icon-hour2" src="" alt="icon">
+              <strong class="d-block" id="wrapper-hour2" ></strong>
+          
+            </div>
+          
+            <div class="col-2">
+              <strong id="wrapper-time3" class="mr-2"></strong>
+              <img id="wrapper-icon-hour3" src="" alt="icon">
+              <strong class="d-block" id="wrapper-hour3" ></strong>
+              
+            </div>
+
+            <div class="col-2">
+              <strong id="wrapper-time4" class="mr-2"></strong>
+              <img id="wrapper-icon-hour4" src="" alt="icon">
+              <strong class="d-block" id="wrapper-hour4" ></strong>
+          
+            </div>
+          
+            <div class="col-2">
+              <strong id="wrapper-time5" class="mr-2"></strong>
+              <img id="wrapper-icon-hour5" src="" alt="icon">
+              <strong class="d-block" id="wrapper-hour5" ></strong>
+              
+            </div>
+          
+          </div>
+        </div>
+           <!-- DAILY DATA FORECAST -->
+          <div class="card-body">
+            <div class="row">
+            <div class="col-md-6">
+              <strong>Today</strong>
+            </div>
+            <div class="col-md-2">
+              <img id="wrapper-icon-today" src="" alt="icon">
+            </div>
+            <div class="col-md-4 text-end">
+              <span id="wrapper-forcast-temp-today" ></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <strong>Tomorrow</strong>
+            </div>
+            <div class="col-md-2">
+              <img id="wrapper-icon-tomorrow" src="" alt="icon">
+            </div>
+            <div class="col-md-4 text-end">
+              <span id="wrapper-forcast-temp-tomorrow" ></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <strong>Day After Tomorrow</strong>
+            </div>
+            <div class="col-md-2">
+              <img id="wrapper-icon-dAt" src="" alt="icon">
+            </div>
+            <div class="col-md-4 text-end">
+              <span id="wrapper-forcast-temp-dAT" ></span>
+            </div>
+          </div>
+
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    <!-- MDB -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript">
+      ///API CALL
+      /* https://api.openweathermap.org/data/2.5/onecall?lat=19.076090&lon=72.877426&units=metric&exclude=minutely,alerts&appid=a5e7b986713307a7f17ecb14021de413 */
+      let queryURL = "https://api.openweathermap.org/data/2.5/onecall?";
+      let lat = "lat=19.0760&";
+      let lon= "lon=72.8777&";
+      let apiOption="units=metric&exclude=minutely,alerts&";
+      let apiKey = "appid=a5e7b986713307a7f17ecb14021de413";
+
+      let file = queryURL + lon + lat + apiOption + apiKey;
+
+      fetch(file)
+      .then((response) => response.json())
+      .then((data) =>{
+        //***Whether main(current) data******
+        let main = data.current.weather[0].main;
+        let description = data.current.weather[0].description;
+        let temp = Math.round(data.current.temp);
+        let pressure = data.current.pressure;
+        let humidity = data.current.humidity;
+        let name= data.timezone;
+        //data.timezone;
+
+        // SHOWING MAIN DATA ON HTML PAGE
+        document.getElementById("wrapper-description").innerHTML=description;
+        document.getElementById("wrapper-temp").innerHTML=temp + "°C";
+        document.getElementById("wrapper-pressure").innerHTML=pressure;
+        document.getElementById("wrapper-humidity").innerHTML=humidity +"%";
+        document.getElementById("wrapper-name").innerHTML=name;
+
+
+        ///Whether hourly data
+        let hourNow =(data.hourly[0].temp);
+        let hour1 =(data.hourly[1].temp);
+        let hour2 =(data.hourly[2].temp);
+        let hour3 =(data.hourly[3].temp);
+        let hour4 =(data.hourly[4].temp);
+        let hour5 =(data.hourly[5].temp);
+        
+
+        // SHOWING HOURLY DATA ON HTML PAGE from api
+        document.getElementById("wrapper-hour-now").innerHTML=hourNow+ "°";
+        document.getElementById("wrapper-hour1").innerHTML=hour1+ "°";
+        document.getElementById("wrapper-hour2").innerHTML=hour2+ "°";
+        document.getElementById("wrapper-hour3").innerHTML=hour3+ "°";
+        document.getElementById("wrapper-hour4").innerHTML=hour4+ "°";
+        document.getElementById("wrapper-hour5").innerHTML=hour5+ "°";
+
+        // showing hourly Time from api
+        let timeNow = new Date().getHours();
+        let time1 = timeNow + 1;
+        let time2 = time1 + 1;
+        let time3 = time2 + 1;
+        let time4 = time3 + 1;
+        let time5 = time4 + 1;
+
+        document.getElementById("wrapper-time1").innerHTML=time1;
+        document.getElementById("wrapper-time2").innerHTML=time2;
+        document.getElementById("wrapper-time3").innerHTML=time3;
+        document.getElementById("wrapper-time4").innerHTML=time4;
+        document.getElementById("wrapper-time5").innerHTML=time5;
+
+        
+
+        
+
+        
+
+        //Whether daily data
+        let tomorrowTemp =Math.round(data.daily[0].temp.day);
+        let DATtemp =Math.round(data.daily[1].temp.day);//day after tomorrow temp
+        let tomorrowMain = data.daily[0].weather[0].main;
+        let DATmain = data.daily[1].weather[0].main;
+
+
+
+        document.getElementById("wrapper-forcast-temp-today").innerHTML=temp +"°C"
+        document.getElementById("wrapper-forcast-temp-tomorrow").innerHTML=tomorrowTemp +"°C"
+        document.getElementById("wrapper-forcast-temp-dAT").innerHTML=DATtemp +"°C"
+
+        console.log(timeNow);
+        /// FOR ICONS
+        let iconBaseUrl = "http://openweathermap.org/img/wn/";
+        let iconFormate =".png"
+
+          //Today icon
+          let iconCodeToday= data.current.weather[0].icon;
+          let iconFullyUrlToday = iconBaseUrl + iconCodeToday + iconFormate;
+          document.getElementById("wrapper-icon-today").src=iconFullyUrlToday;
+
+          //Tomorrow icons
+          let iconCodeTomorrow= data.daily[0].weather[0].icon;
+          let iconFullyUrlTomorrow = iconBaseUrl + iconCodeTomorrow + iconFormate;
+          document.getElementById("wrapper-icon-tomorrow").src=iconFullyUrlTomorrow;
+
+          // day after tomorrow icon
+          let iconCodedAT= data.daily[1].weather[0].icon;
+          let iconFullyUrldAT = iconBaseUrl + iconCodedAT+ iconFormate;
+          document.getElementById("wrapper-icon-dAt").src=iconFullyUrldAT;
+
+          //hourly icons
+          //HourNOw
+          let iconHourNow=data.hourly[0].weather[0].icon;
+          let iconFullyUrlHourNow = iconBaseUrl + iconHourNow + iconFormate;
+          document.getElementById("wrapper-icon-hour-now").src=iconFullyUrlHourNow;
+
+
+          //Hour1
+          let iconHour1=data.hourly[1].weather[0].icon;
+          let iconFullyUrlHour1 = iconBaseUrl + iconHour1 + iconFormate;
+          document.getElementById("wrapper-icon-hour1").src=iconFullyUrlHour1;
+
+
+          //Hour2
+          let iconHour2=data.hourly[2].weather[0].icon;
+          let iconFullyUrlHour2 = iconBaseUrl + iconHour2 + iconFormate;
+          document.getElementById("wrapper-icon-hour2").src=iconFullyUrlHour2;
+
+
+          //Hour3
+          let iconHour3=data.hourly[0].weather[0].icon;
+          let iconFullyUrlHour3 = iconBaseUrl + iconHour3 + iconFormate;
+          document.getElementById("wrapper-icon-hour3").src=iconFullyUrlHour3
+
+          //Hour4
+          let iconHour4=data.hourly[0].weather[0].icon;
+          let iconFullyUrlHour4 = iconBaseUrl + iconHour4 + iconFormate;
+          document.getElementById("wrapper-icon-hour4").src=iconFullyUrlHour4;
+
+
+          //Hour5
+          let iconHour5=data.hourly[0].weather[0].icon;
+          let iconFullyUrlHour5 = iconBaseUrl + iconHour5 + iconFormate;
+          document.getElementById("wrapper-icon-hour5").src=iconFullyUrlHour5;
+
+          // main="Fog"
+
+          ///////BACKGROUD CHANGE ACCORDING TO CONDITION//////
+          switch(main){
+            case "Snow":
+            document.getElementById("wrapper-bg").style.backgroundImage="url('./Assets/snow.gif')";
+            break;
+
+            case "Clouds":
+            document.getElementById("wrapper-bg").style.backgroundImage="url('./Assets/clouds.gif')";
+            break;
+            
+
+            case "Fog":
+            document.getElementById("wrapper-bg").style.backgroundImage="url('./Assets/fog.gif')";
+            break;
+            
+
+            case "Thunderstorm":
+            document.getElementById("wrapper-bg").style.backgroundImage="url('./Assets/thunderstorm.gif')";
+            break;
+            
+
+            case "Rain":
+            document.getElementById("wrapper-bg").style.backgroundImage="url('./Assets/rain.gif')";
+            break;
+
+            default:
+            document.getElementById("wrapper-bg").style.backgroundImage="url('./Assets/clear.gif')";
+            break;
+            
+
+            
+
+          }
+
+
+
+
+
+      });
+      
+
+    </script>
+  </body>
+</html>
