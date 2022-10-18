@@ -9,7 +9,7 @@
 
 ==> I used HTML,CSS,JavaScript and Bootstrap.
 
-==> CSS Framwork: Bootstrap 5   
+==> CSS Framwork: Bootstrap 5.
 
 ==> This is API Based Application.
 
@@ -19,6 +19,7 @@
 
 # Snap-shorts
 ==>Changing accoriding to condition like When Default or Haze condition.
+
  <img width="245" alt="image" src="https://user-images.githubusercontent.com/95541977/192034058-a216c61c-2f24-42cd-ac82-ee4eab271166.png">
 
 ==>When Snow condition.
